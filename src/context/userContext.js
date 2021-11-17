@@ -6,6 +6,9 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -36,6 +39,7 @@ export const UserContextProvider = ({ children }) => {
 
   const registerUser = (email, password, name) => {
     setLoading(true);
+    setError("");
     createUserWithEmailAndPassword(auth, email, password)
       .then(() =>
         updateProfile(auth.currentUser, {
@@ -49,7 +53,27 @@ export const UserContextProvider = ({ children }) => {
 
   const signInUser = (email, password) => {
     setLoading(true);
+    setError("");
+
     signInWithEmailAndPassword(auth, email, password)
+      .then((res) => console.log(res))
+      .catch((err) => setError(err.code))
+      .finally(() => setLoading(false));
+  };
+
+  const signInWithGoogle = () => {
+    setLoading(true);
+    setError("");
+
+    signInWithPopup(auth, new GoogleAuthProvider())
+      .then((res) => console.log(res))
+      .catch((err) => setError(err.code))
+      .finally(() => setLoading(false));
+  };
+  const signInWithGithub = () => {
+    setLoading(true);
+    setError("");
+    signInWithPopup(auth, new GithubAuthProvider())
       .then((res) => console.log(res))
       .catch((err) => setError(err.code))
       .finally(() => setLoading(false));
@@ -71,6 +95,8 @@ export const UserContextProvider = ({ children }) => {
     registerUser,
     logoutUser,
     forgotPassword,
+    signInWithGoogle,
+    signInWithGithub,
   };
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>
