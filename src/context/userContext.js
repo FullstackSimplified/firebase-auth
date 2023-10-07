@@ -6,6 +6,8 @@ import {
   signOut,
   updateProfile,
   sendPasswordResetEmail,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../firebase";
 
@@ -59,6 +61,16 @@ export const UserContextProvider = ({ children }) => {
     signOut(auth);
   };
 
+  const signInWithGoogle = () => {
+    setLoading(true);
+    setError("");
+
+    signInWithPopup(auth, new GoogleAuthProvider())
+      .then((res) => console.log(res))
+      .catch((err) => setError(err.code))
+      .finally(() => setLoading(false));
+  };
+
   const forgotPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
   };
@@ -71,6 +83,7 @@ export const UserContextProvider = ({ children }) => {
     registerUser,
     logoutUser,
     forgotPassword,
+    signInWithGoogle,
   };
   return (
     <UserContext.Provider value={contextValue}>{children}</UserContext.Provider>

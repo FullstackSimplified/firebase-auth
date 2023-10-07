@@ -41,6 +41,7 @@ button {
   width: 100%;
   border-radius: 6px;
   font-size: 18px;
+  cursor: pointer;
 }
 
 .container {
@@ -86,4 +87,14 @@ button {
   font-weight: bold;
   max-width: 400px;
   margin-bottom: 18px;
+}
+
+button .google-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button .google-icon {
+  margin-right: 20px;
 }
